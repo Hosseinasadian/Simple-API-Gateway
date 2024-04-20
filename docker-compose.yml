@@ -1,0 +1,34 @@
+version: '1.0'
+
+services:
+    nginx-gateway:
+      image: nginx
+      networks:
+      - gateway
+      ports:
+      - "2080:80"
+      - "20443:443"
+      volumes:
+      - ./nginx-config:/etc/nginx/
+
+    pricing-1:
+      build: ./pricing/instance-1
+      networks:
+      - gateway
+    pricing-2:
+      build: ./pricing/instance-2
+      networks:
+      - gateway
+
+    inventory-1:
+      build: ./inventory/instance-1
+      networks:
+      - gateway
+    inventory-2:
+      build: ./inventory/instance-2
+      networks:
+      - gateway
+
+networks:
+    gateway:
+        driver: bridge
